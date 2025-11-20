@@ -153,10 +153,10 @@ function doPost(e) {
     // ========================================
     try {
       const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
-      let dataSheet = spreadsheet.getSheetByName('Global');
+      let dataSheet = spreadsheet.getSheetByName('客戶報名記錄');
       
       if (!dataSheet) {
-        dataSheet = spreadsheet.insertSheet('Global');
+        dataSheet = spreadsheet.insertSheet('客戶報名記錄');
         dataSheet.appendRow([
           '時間戳記', '姓名', '電子郵件', '電話號碼', '國家地區', 
           '行業', '評估地區', 'LINE ID', 'WhatsApp號碼', '推廣代碼'
