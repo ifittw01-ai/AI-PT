@@ -602,6 +602,9 @@ function initVideoTracking() {
 
 // 页面加载时初始化所有功能
 document.addEventListener('DOMContentLoaded', () => {
+    // 🌐 先初始化語言（必須最先執行）
+    initLanguage();
+    
     initCountdown();
     initFAQ();
     initCTAButtons();
