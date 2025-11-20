@@ -614,8 +614,11 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollAnimations();
     initVideoTracking();
     
-    // 🆕 載入動態評估地點
-    loadRegionOptions();
+    // 🆕 初始化國家-地區聯動
+    initCountryRegionSync();
+    
+    // 🆕 載入預設國家（台灣）的評估地點
+    loadRegionOptions('TW');
 });
 
 // 监听页面可见性变化，暂停/恢复倒计时
@@ -630,9 +633,9 @@ document.addEventListener('visibilitychange', () => {
 });
 
 // ========================================
-// 動態加載評估地點（從 Google Apps Script 獲取）
+// 動態加載評估地點（從 Google Apps Script 獲取，根據國家）
 // ========================================
-async function loadRegionOptions() {
+async function loadRegionOptions(country = 'TW') {
     try {
         const regionSelect = document.getElementById('region');
         
@@ -641,13 +644,14 @@ async function loadRegionOptions() {
             return;
         }
         
-        console.log('📍 正在載入評估地點選項...');
+        console.log('📍 正在載入評估地點選項...（國家: ' + country + '）');
         
         // 顯示載入中
         regionSelect.innerHTML = '<option value="">載入中...</option>';
         regionSelect.disabled = true;
         
-        const response = await fetch(GOOGLE_SCRIPT_URL + '?action=getRegions&lang=zh-TW');
+        // 根據國家獲取對應的地點
+        const response = await fetch(GOOGLE_SCRIPT_URL + '?action=getRegions&country=' + country);
         const result = await response.json();
         
         if (result.success && result.regions && result.regions.length > 0) {
@@ -663,15 +667,21 @@ async function loadRegionOptions() {
             });
             
             regionSelect.disabled = false;
-            console.log('✅ 成功載入 ' + result.regions.length + ' 個評估地點');
+            console.log('✅ 成功載入 ' + result.regions.length + ' 個評估地點（' + country + '）');
         } else {
             console.warn('⚠️ 載入評估地點失敗，使用預設選項');
             // 使用預設選項作為後備
-            regionSelect.innerHTML = `
-                <option value="">請選擇...</option>
-                <option value="2">11/3 星期一 晚上 7:00~9:00 捷運新店區公所站一號出口1分鐘到 北新路一段159號2樓</option>
-                <option value="3">11/5 星期三 下午 2:00~4:00 捷運新店區公所站一號出口1分鐘到 北新路一段159號2樓</option>
-            `;
+            if (country === 'MY') {
+                regionSelect.innerHTML = `
+                    <option value="">請選擇...</option>
+                    <option value="my1">待定 - 吉隆坡地點</option>
+                `;
+            } else {
+                regionSelect.innerHTML = `
+                    <option value="">請選擇...</option>
+                    <option value="tw1">待定 - 台灣地點</option>
+                `;
+            }
             regionSelect.disabled = false;
         }
     } catch (error) {
@@ -680,14 +690,51 @@ async function loadRegionOptions() {
         // 出錯時使用預設選項
         const regionSelect = document.getElementById('region');
         if (regionSelect) {
-            regionSelect.innerHTML = `
-                <option value="">請選擇...</option>
-                <option value="2">11/3 星期一 晚上 7:00~9:00 捷運新店區公所站一號出口1分鐘到 北新路一段159號2樓</option>
-                <option value="3">11/5 星期三 下午 2:00~4:00 捷運新店區公所站一號出口1分鐘到 北新路一段159號2樓</option>
-            `;
+            if (country === 'MY') {
+                regionSelect.innerHTML = `
+                    <option value="">請選擇...</option>
+                    <option value="my1">待定 - 吉隆坡地點</option>
+                `;
+            } else {
+                regionSelect.innerHTML = `
+                    <option value="">請選擇...</option>
+                    <option value="tw1">待定 - 台灣地點</option>
+                `;
+            }
             regionSelect.disabled = false;
         }
     }
+}
+
+// ========================================
+// 監聽國家選擇變化，動態加載對應地點
+// ========================================
+function initCountryRegionSync() {
+    const countrySelect = document.getElementById('country');
+    const regionSelect = document.getElementById('region');
+    
+    if (!countrySelect || !regionSelect) {
+        console.warn('⚠️ 找不到國家或地區選單元素');
+        return;
+    }
+    
+    // 監聽國家選擇變化
+    countrySelect.addEventListener('change', function() {
+        const selectedCountry = this.value;
+        console.log('🌍 國家已切換為:', selectedCountry);
+        
+        if (selectedCountry) {
+            // 重置並重新加載評估地點
+            regionSelect.value = '';
+            loadRegionOptions(selectedCountry);
+        } else {
+            // 清空評估地點
+            regionSelect.innerHTML = '<option value="">請先選擇國家...</option>';
+            regionSelect.disabled = true;
+        }
+    });
+    
+    console.log('✅ 國家-地區聯動已初始化');
 }
 
 // 添加急迫感效果

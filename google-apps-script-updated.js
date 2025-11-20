@@ -19,7 +19,7 @@
 // ⚠️ 請將下方的 SPREADSHEET_ID 改為你的 Google Sheet ID
 // 如何取得？打開你的 Google Sheet，網址中的長串英數字即為 ID
 // 例如：https://docs.google.com/spreadsheets/d/【這裡就是ID】/edit
-const SPREADSHEET_ID = '1tvKaa07m-lxqyF4ZWgpOsC2ESiXBvNeN5IbA013lEf0';  // ⚠️ 必須修改
+const SPREADSHEET_ID = '1izx4MEi7coasKaULlqLQUDOmXt9qEmQ8GC0ZKfT2XvU';  // ⚠️ 必須修改
 const SHEET_NAME = '推廣人員';  // Sheet 分頁名稱
 const DEFAULT_EMAIL = 'jordantsai777@gmail.com';  // 預設郵箱（找不到推廣代碼時使用）
 const CACHE_DURATION = 600;  // 緩存時間（秒）- 10 分鐘
@@ -237,8 +237,65 @@ AI+自媒體創業系統 團隊
 }
 
 // ========================================
-// 測試函數（可選）
+// 處理 GET 請求 - 獲取評估地點列表（根據國家）
 // ========================================
 function doGet(e) {
-  return ContentService.createTextOutput('Google Apps Script 正在運行！請使用 POST 方法提交表單。');
+  try {
+    const action = e.parameter.action;
+    
+    if (action === 'getRegions') {
+      // 獲取國家參數（默認為台灣）
+      const country = e.parameter.country || 'TW';
+      
+      Logger.log('📍 獲取評估地點 - 國家: ' + country);
+      
+      // 從 Google Sheet 讀取評估地點
+      const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
+      const sheet = spreadsheet.getSheetByName('評估地點');
+      
+      if (!sheet) {
+        Logger.log('❌ 找不到「評估地點」工作表');
+        return ContentService.createTextOutput(JSON.stringify({
+          success: false,
+          message: '找不到評估地點工作表'
+        })).setMimeType(ContentService.MimeType.JSON);
+      }
+      
+      const data = sheet.getDataRange().getValues();
+      const regions = [];
+      
+      // 從第二列開始讀取（第一列是標題：ID | 國家 | 地點描述）
+      for (let i = 1; i < data.length; i++) {
+        const id = data[i][0];
+        const regionCountry = String(data[i][1]).trim();
+        const text = data[i][2];
+        
+        // 只返回匹配國家的地點
+        if (id && regionCountry === country && text) {
+          regions.push({
+            id: String(id),
+            text: String(text)
+          });
+        }
+      }
+      
+      Logger.log('✅ 找到 ' + regions.length + ' 個地點（' + country + '）');
+      
+      return ContentService.createTextOutput(JSON.stringify({
+        success: true,
+        regions: regions,
+        country: country
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+    
+    // 默認響應
+    return ContentService.createTextOutput('Google Apps Script 正在運行！');
+    
+  } catch (error) {
+    Logger.log('❌ doGet 錯誤: ' + error);
+    return ContentService.createTextOutput(JSON.stringify({
+      success: false,
+      message: '錯誤: ' + error.toString()
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
 }
