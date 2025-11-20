@@ -369,25 +369,33 @@ function detectBrowserLanguage() {
     // 根據瀏覽器語言匹配我們支持的語言
     if (browserLang.startsWith('zh')) {
         // 中文區域判斷
-        if (browserLang.includes('CN') || browserLang.includes('Hans')) {
+        if (browserLang.includes('CN') || browserLang.includes('Hans') || 
+            browserLang.includes('SG') || browserLang.includes('MY')) {
+            // 简体中文：中国大陆、新加坡、马来西亚
             console.log('✅ 自動選擇: 简体中文');
-            return 'zh-CN'; // 简体中文（中国大陆）
-        } else if (browserLang.includes('TW') || browserLang.includes('Hant') || browserLang.includes('HK') || browserLang.includes('MO')) {
+            return 'zh-CN';
+        } else if (browserLang.includes('TW') || browserLang.includes('Hant') || 
+                   browserLang.includes('HK') || browserLang.includes('MO')) {
+            // 繁体中文：台湾、香港、澳门
             console.log('✅ 自動選擇: 繁體中文');
-            return 'zh-TW'; // 繁体中文（台湾、香港、澳门）
+            return 'zh-TW';
         } else {
             // 默認簡體（因為使用簡體的人口更多）
-            console.log('✅ 自動選擇: 繁體中文（默認）');
-            return 'zh-TW';
+            console.log('✅ 自動選擇: 简体中文（默認）');
+            return 'zh-CN';
         }
     } else if (browserLang.startsWith('en')) {
         console.log('✅ 自動選擇: English');
         return 'en'; // 英文
+    } else if (browserLang.startsWith('ms') || browserLang.startsWith('id')) {
+        // 马来语或印尼语用户 → 英文（因为我们没有马来语/印尼语版本）
+        console.log('✅ 自動選擇: English (Malay/Indonesian user)');
+        return 'en';
     }
     
-    // 其他語言默認使用繁體中文（因為這是主要目標市場）
-    console.log('✅ 自動選擇: 繁體中文（默認）');
-    return 'zh-TW';
+    // 其他語言默認使用英文（更通用）
+    console.log('✅ 自動選擇: English（默認）');
+    return 'en';
 }
 
 // 獲取當前語言
