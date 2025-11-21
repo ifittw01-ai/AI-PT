@@ -24,7 +24,7 @@ echo ✅ 已提交更改
 echo.
 
 echo [步骤 4/4] 推送到 GitHub...
-git push origin master
+git push origin main
 echo.
 
 if %errorlevel% == 0 (
