@@ -462,14 +462,18 @@ function updatePageLanguage(lang) {
 
 // 根據語言更新社交媒體分享圖片
 function updateSocialMediaImage(lang) {
+    console.log('🖼️ updateSocialMediaImage 被調用，語言參數:', lang);
+    
     // 根據語言選擇圖片
     let imageName;
     if (lang === 'zh-CN') {
         // 簡體中文使用 AIMakeMoneyC.png
         imageName = 'AIMakeMoneyC.png';
+        console.log('✅ 匹配到簡體中文，使用:', imageName);
     } else {
         // 繁體中文和其他語言使用 AIMakeMoney.png
         imageName = 'AIMakeMoney.png';
+        console.log('✅ 使用默認圖片:', imageName);
     }
     
     const baseUrl = 'https://ifittw01-ai.github.io/AI-auto-global/data/';
