@@ -617,8 +617,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 🆕 初始化國家-地區聯動
     initCountryRegionSync();
     
-    // 🆕 載入預設國家（台灣）的評估地點
-    loadRegionOptions('TW');
+    // ⚠️ 不再默认加载，等用户选择国家后再加载
 });
 
 // 监听页面可见性变化，暂停/恢复倒计时
@@ -717,6 +716,10 @@ function initCountryRegionSync() {
         console.warn('⚠️ 找不到國家或地區選單元素');
         return;
     }
+    
+    // 初始化：禁用評估地區選單，提示用户先选择国家
+    regionSelect.innerHTML = '<option value="">請先選擇國家...</option>';
+    regionSelect.disabled = true;
     
     // 監聽國家選擇變化
     countrySelect.addEventListener('change', function() {
