@@ -113,6 +113,13 @@ body {
     object-fit: cover;
 }
 
+.hero-top-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
 /* 顶部横幅 */
 .top-banner {
     background: var(--gradient-primary);

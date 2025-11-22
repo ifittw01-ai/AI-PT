@@ -431,10 +431,14 @@ function setLanguage(lang) {
 
 // 更新頁面語言
 function updatePageLanguage(lang) {
+    console.log('🔄 updatePageLanguage 被調用，語言:', lang);
     const t = translations[lang] || translations['zh-TW'];
     
     // 更新所有帶有 data-i18n 屬性的元素
-    document.querySelectorAll('[data-i18n]').forEach(element => {
+    const elements = document.querySelectorAll('[data-i18n]');
+    console.log('📝 找到', elements.length, '個需要翻譯的元素');
+    
+    elements.forEach(element => {
         const key = element.getAttribute('data-i18n');
         if (t[key]) {
             // 根據元素類型更新內容
@@ -447,6 +451,9 @@ function updatePageLanguage(lang) {
             } else {
                 element.innerHTML = t[key];
             }
+            console.log('✅ 已更新:', key, '→', t[key].substring(0, 30) + '...');
+        } else {
+            console.warn('⚠️ 找不到翻譯:', key);
         }
     });
     
@@ -514,6 +521,25 @@ function updateSocialMediaImage(lang) {
     if (heroImage) {
         heroImage.src = 'data/' + imageName;
         console.log('✅ 已更新頁面主圖片為:', imageName);
+    }
+    
+    // 🖼️ 更新頂部圖片（top.png）
+    let topImageName;
+    if (lang === 'zh-CN') {
+        topImageName = 'topC.png';
+        console.log('✅ 匹配到簡體中文，使用頂部圖片:', topImageName);
+    } else if (lang === 'en') {
+        topImageName = 'topE.png';
+        console.log('✅ 匹配到英文，使用頂部圖片:', topImageName);
+    } else {
+        topImageName = 'top.png';
+        console.log('✅ 使用繁體中文頂部圖片:', topImageName);
+    }
+    
+    const topImage = document.querySelector('.hero-top-image');
+    if (topImage) {
+        topImage.src = 'data/' + topImageName;
+        console.log('✅ 已更新頂部圖片為:', topImageName);
     }
 }
 
