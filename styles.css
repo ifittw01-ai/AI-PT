@@ -554,6 +554,20 @@ body {
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
 
+.daily-life-image {
+    width: 100%;
+    max-width: 1200px;
+    margin: 40px auto;
+    text-align: center;
+}
+
+.daily-life-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
 .daily-scenarios {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -659,7 +673,15 @@ body {
 /* 学员评价 */
 .testimonials {
     padding: 80px 0;
-    background: var(--light-bg);
+    background: #1a2a4e;
+}
+
+.testimonials .section-title {
+    color: var(--white);
+}
+
+.testimonials .subtitle {
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .subtitle {
