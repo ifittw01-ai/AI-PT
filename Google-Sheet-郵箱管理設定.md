@@ -49,7 +49,7 @@ https://docs.google.com/spreadsheets/d/【這裡就是 SHEET_ID】/edit
 
 **範例：**
 ```
-https://docs.google.com/spreadsheets/d/1a2B3c4D5e6F7g8H9i0J1k2L3m4N5o6P7q8R9/edit
+https://docs.google.com/spreadsheets/d/1YUeS99x4qoSX3A216en65AQJEcADUCPCXY6hAnEEKcg/edit
                                       ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
                                       這段就是你的 SHEET_ID
 ```
@@ -81,7 +81,7 @@ const SPREADSHEET_ID = '請替換成你的SHEET_ID';  // ⚠️ 必須修改
 替換成你剛才複製的 Google Sheet ID：
 
 ```javascript
-const SPREADSHEET_ID = '1a2B3c4D5e6F7g8H9i0J1k2L3m4N5o6P7q8R9';  // ✅ 已修改
+const SPREADSHEET_ID = '1YUeS99x4qoSX3A216en65AQJEcADUCPCXY6hAnEEKcg';  // ✅ 已修改
 ```
 
 ### 4. 確認其他設定（通常不需要修改）
