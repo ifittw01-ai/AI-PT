@@ -476,7 +476,7 @@ function updateSocialMediaImage(lang) {
     }
     
     const baseUrl = 'https://ifittw01-ai.github.io/AI-PT/data/';
-    const cacheBust = '?v=20260221';
+    const cacheBust = '?v=20260221b';
     const imageUrl = baseUrl + imageName + cacheBust;
     
     // 更新 Open Graph 圖片（Facebook、LINE 等會讀取）
