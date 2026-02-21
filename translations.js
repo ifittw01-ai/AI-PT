@@ -403,22 +403,10 @@ function detectBrowserLanguage() {
 
 // 獲取當前語言
 function getCurrentLanguage() {
-    // 先檢查是否有保存的語言偏好
-    const savedLang = localStorage.getItem('language');
-    
-    if (savedLang) {
-        console.log('📌 使用已保存的語言:', savedLang);
-        return savedLang;
-    }
-    
-    // 如果沒有保存的偏好，則自動檢測
-    const detectedLang = detectBrowserLanguage();
-    console.log('🔍 自動檢測語言:', detectedLang);
-    
-    // 保存檢測到的語言
-    localStorage.setItem('language', detectedLang);
-    
-    return detectedLang;
+    // 固定使用繁體中文
+    const fixedLang = 'zh-TW';
+    localStorage.setItem('language', fixedLang);
+    return fixedLang;
 }
 
 // 設置語言
