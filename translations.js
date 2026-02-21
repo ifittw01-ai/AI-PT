@@ -475,8 +475,9 @@ function updateSocialMediaImage(lang) {
         console.log('✅ 使用繁體中文圖片:', imageName);
     }
     
-    const baseUrl = 'https://ifittw01-ai.github.io/AI-auto-global/data/';
-    const imageUrl = baseUrl + imageName;
+    const baseUrl = 'https://ifittw01-ai.github.io/AI-PT/data/';
+    const cacheBust = '?v=20260221';
+    const imageUrl = baseUrl + imageName + cacheBust;
     
     // 更新 Open Graph 圖片（Facebook、LINE 等會讀取）
     const ogImage = document.querySelector('meta[property="og:image"]');
@@ -512,21 +513,12 @@ function updateSocialMediaImage(lang) {
     }
     
     // 🖼️ 更新頂部圖片（top.png）
-    let topImageName;
-    if (lang === 'zh-CN') {
-        topImageName = 'topC.png';
-        console.log('✅ 匹配到簡體中文，使用頂部圖片:', topImageName);
-    } else if (lang === 'en') {
-        topImageName = 'topE.png';
-        console.log('✅ 匹配到英文，使用頂部圖片:', topImageName);
-    } else {
-        topImageName = 'top.png';
-        console.log('✅ 使用繁體中文頂部圖片:', topImageName);
-    }
+    const topImageName = 'top.png';
+    console.log('✅ 使用頂部圖片:', topImageName);
     
     const topImage = document.querySelector('.hero-top-image');
     if (topImage) {
-        topImage.src = 'data/' + topImageName;
+        topImage.src = 'data/' + topImageName + cacheBust;
         console.log('✅ 已更新頂部圖片為:', topImageName);
     }
 }
