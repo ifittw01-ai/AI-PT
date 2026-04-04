@@ -294,6 +294,32 @@ section {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.hero-image-frame {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.hero-top-cta-group {
+    position: absolute;
+    right: 24px;
+    bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.hero-top-price {
+    margin: 0;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 6px 10px;
+    border-radius: 10px;
+    font-weight: 700;
 }
 
 .hero-main-image {
@@ -514,6 +540,33 @@ section {
     width: 100%;
     height: 100%;
     display: block;
+}
+
+.video-below-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-width: 1200px;
+    margin: 20px auto 0;
+}
+
+.top5-cta {
+    width: 100%;
+    max-width: 1200px;
+    aspect-ratio: 1200 / 630;
+    display: block;
+    margin: 20px auto 0;
+    background: url("data/top5.jpg") center / contain no-repeat;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 1rem;
+    color: transparent;
+}
+
+.top5-cta:focus-visible {
+    outline: 3px solid #ffffff;
+    outline-offset: 4px;
 }
 
 /* 视频覆盖层 */
